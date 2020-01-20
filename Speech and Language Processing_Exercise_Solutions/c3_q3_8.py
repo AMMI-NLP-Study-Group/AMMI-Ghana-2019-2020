@@ -1,7 +1,4 @@
 from collections import Counter
-import utils
-
-# get list of words
 
 def question38(Text):
     words = Text.split()
