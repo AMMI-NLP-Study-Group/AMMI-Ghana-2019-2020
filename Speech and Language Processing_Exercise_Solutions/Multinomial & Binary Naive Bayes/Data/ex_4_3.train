@@ -1,0 +1,5 @@
+good good good great great great;pos
+poor great great;pos
+good poor poor poor;neg
+good poor poor poor poor poor great great;neg
+poor;neg
