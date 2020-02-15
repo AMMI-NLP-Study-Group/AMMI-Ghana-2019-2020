@@ -27,8 +27,33 @@ def get_count_table(d, vocabulary):
     return result
 
 
+def get_prior(d):
+        y = d['output']
+        uniq_y = set(y)
+        total = len(y)
+        final_prior = {}
+        for item in uniq_y:
+                tmp = [x for x in y if x == item]
+                final_prior[item] = len(tmp)/total
 
+        return final_prior
 
+def get_likelihood(vocabulary, count_table, labels):
+        s = sorted(list(set(labels)))
+        # print(s)
+        result = [[0 for i in range(len(vocabulary))] for j in range(len(s))]
+        for c_idx, c in enumerate(s):
+                # Tc = 0
+                # for i, row in enumerate(count_table):
+                #         if labels[i]==c:
+                #                 Tc+=sum(row)
+        
+                Tc = sum([sum(row) for i,row in enumerate(count_table) if labels[i]==c])
+                for word in vocabulary.keys():
+                        word_idx = vocabulary[word]
+                        c_wc = sum([count_table[i][word_idx] for i in range(len(labels)) if labels[i]==c]) 
+                        result[c_idx][word_idx] = (c_wc+1)/(Tc+len(vocabulary))
+        return result
 def get_vocab(d):
     final_d = {}
     index_counter = 0
@@ -59,4 +84,8 @@ d = read_file("./Data/worked_example.train")
 
 vocabulary = get_vocab(d)
 
-get_count_table(d, vocabulary)
+count_table = get_count_table(d, vocabulary)
+
+p_c = get_prior(d)
+pwc = get_likelihood(vocabulary, count_table, d["output"])
+print(count_table)
