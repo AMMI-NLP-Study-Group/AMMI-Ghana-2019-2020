@@ -54,6 +54,7 @@ def get_likelihood(vocabulary, count_table, labels):
                         c_wc = sum([count_table[i][word_idx] for i in range(len(labels)) if labels[i]==c]) 
                         result[c_idx][word_idx] = (c_wc+1)/(Tc+len(vocabulary))
         return result
+
 def get_vocab(d):
     final_d = {}
     index_counter = 0
@@ -77,15 +78,3 @@ def read_file(file_path):
                 y.append(reading[1])
 
         return {'input':x, 'output': y}
-
-
-
-d = read_file("./Data/worked_example.train")
-
-vocabulary = get_vocab(d)
-
-count_table = get_count_table(d, vocabulary)
-
-p_c = get_prior(d)
-pwc = get_likelihood(vocabulary, count_table, d["output"])
-print(count_table)

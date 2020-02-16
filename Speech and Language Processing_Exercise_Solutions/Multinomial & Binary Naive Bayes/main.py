@@ -1,9 +1,14 @@
 from typing import Set
 import re
+from utils import *
 
-def tokenize(text: str) -> Set[str]:
-    text = text.lower()                         # Convert to lowercase,
-    all_words = re.findall("[a-z0-9']+", text)  # extract the words, and
-    return set(all_words)                       # remove duplicates.
 
-# assert tokenize("Data Science 01, is & _ is science") == {"data", "science", "is"}
+d = read_file("./Data/worked_example.train")
+
+vocabulary = get_vocab(d)
+
+count_table = get_count_table(d, vocabulary)
+
+p_c = get_prior(d)
+pwc = get_likelihood(vocabulary, count_table, d["output"])
+print(count_table)
